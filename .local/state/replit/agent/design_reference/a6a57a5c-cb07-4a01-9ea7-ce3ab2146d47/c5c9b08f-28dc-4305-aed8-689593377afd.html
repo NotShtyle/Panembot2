@@ -1,0 +1,669 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panem Discord Bot - Hunger Games Simulation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#FF6B35',
+                        'orange-secondary': '#F7931E',
+                        'yellow-primary': '#FFD23F',
+                        'yellow-secondary': '#FFA500',
+                        'dark-primary': '#0F0F0F',
+                        'dark-secondary': '#1A1A1A',
+                        'dark-tertiary': '#111111'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'rotate-slow': 'rotate 20s linear infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark-tertiary text-white font-inter overflow-x-hidden">
+    
+    <!-- Navigation -->
+    <!-- @COMPONENT: Navigation [responsive navigation with mobile menu] -->
+    <nav class="fixed top-0 w-full z-50 bg-dark-primary/90 backdrop-blur-md border-b border-orange-primary/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-primary to-yellow-primary flex items-center justify-center animate-pulse-slow">
+                        <i class="fas fa-fire text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-orange-primary to-yellow-primary bg-clip-text text-transparent">Panem</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="hover:text-orange-primary transition-colors duration-300">Features</a>
+                    <a href="#commands" class="hover:text-orange-primary transition-colors duration-300">Commands</a>
+                    <a href="#giveaways" class="hover:text-orange-primary transition-colors duration-300">Giveaways</a>
+                    <button data-event="click:inviteBot" class="bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary px-6 py-2 rounded-full font-semibold hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-orange-primary/25">
+                        <i class="fab fa-discord mr-2"></i>Add to Server
+                    </button>
+                </div>
+                
+                <button class="md:hidden text-white" data-event="click:toggleMobileMenu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- Mobile Menu Overlay -->
+    <!-- @COMPONENT: MobileMenu [collapsible mobile navigation] -->
+    <div class="fixed inset-0 bg-dark-primary/95 backdrop-blur-md z-40 transform translate-x-full transition-transform duration-300 md:hidden" id="mobile-menu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="#features" class="text-2xl hover:text-orange-primary transition-colors duration-300">Features</a>
+            <a href="#commands" class="text-2xl hover:text-orange-primary transition-colors duration-300">Commands</a>
+            <a href="#giveaways" class="text-2xl hover:text-orange-primary transition-colors duration-300">Giveaways</a>
+            <button class="bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary px-8 py-3 rounded-full font-semibold text-lg">
+                <i class="fab fa-discord mr-2"></i>Add to Server
+            </button>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: MobileMenu -->
+
+    <!-- Hero Section -->
+    <!-- @COMPONENT: HeroSection [main landing section with animated elements] -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-orange-primary to-yellow-primary rounded-full opacity-10 animate-float"></div>
+            <div class="absolute top-40 right-20 w-24 h-24 bg-gradient-to-r from-yellow-primary to-orange-primary rounded-full opacity-15 animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-r from-orange-secondary to-yellow-secondary rounded-full opacity-5 animate-float" style="animation-delay: 4s;"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-slide-up">
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                    <span class="bg-gradient-to-r from-orange-primary via-yellow-primary to-orange-secondary bg-clip-text text-transparent animate-pulse-slow">
+                        Panem
+                    </span>
+                    <br>
+                    <span class="text-white text-4xl md:text-5xl font-semibold">Discord Bot</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Create epic <span class="text-orange-primary font-semibold">Hunger Games simulations</span> in your Discord server. 
+                    Compete, wager coins, and climb the leaderboards in the ultimate survival experience.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <button data-event="click:inviteBot" class="group bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/40">
+                        <i class="fab fa-discord mr-3 text-xl"></i>
+                        Add to Your Server
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </button>
+                    
+                    <button data-event="click:scrollToDemo" class="border-2 border-orange-primary text-orange-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-orange-primary hover:text-dark-primary transition-all duration-300">
+                        <i class="fas fa-play mr-3"></i>
+                        See Demo
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Floating Command Preview -->
+            <div class="animate-fade-in" style="animation-delay: 1s;">
+                <div class="bg-dark-secondary/80 backdrop-blur-md border border-orange-primary/30 rounded-2xl p-6 max-w-md mx-auto transform hover:scale-105 transition-all duration-300 shadow-2xl">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-primary to-yellow-primary flex items-center justify-center mr-3">
+                            <i class="fas fa-terminal text-dark-primary text-sm"></i>
+                        </div>
+                        <span class="text-gray-400 text-sm">Try it out:</span>
+                    </div>
+                    <div class="bg-dark-primary rounded-lg p-4 font-mono">
+                        <span class="text-orange-primary">/game</span>
+                        <span class="text-gray-300 ml-2">start hunger-games</span>
+                        <div class="animate-pulse w-2 h-5 bg-orange-primary inline-block ml-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- Features Section -->
+    <!-- @COMPONENT: FeaturesSection [interactive feature showcase] -->
+    <section id="features" class="py-20 bg-dark-secondary relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-orange-primary to-yellow-primary bg-clip-text text-transparent">
+                        Epic Features
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Experience the thrill of the Hunger Games with these incredible bot features
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- @MAP: features.map(feature => ( -->
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-primary to-yellow-primary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-gamepad text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Hunger Games Simulation</h3>
+                    <p class="text-gray-300 leading-relaxed">Create immersive battle royale experiences where players fight for survival in randomly generated arenas with dynamic events.</p>
+                </div>
+                
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-primary to-orange-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-coins text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Coin Wagering System</h3>
+                    <p class="text-gray-300 leading-relaxed">Bet your coins to enter games and sponsor players. Winners take the entire pot and climb the competitive leaderboards.</p>
+                </div>
+                
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-secondary to-yellow-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-trophy text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Global Leaderboards</h3>
+                    <p class="text-gray-300 leading-relaxed">Track your victories across servers with local and global rankings. Compete with players worldwide for ultimate bragging rights.</p>
+                </div>
+                
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-secondary to-orange-primary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-gift text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Unique Giveaways</h3>
+                    <p class="text-gray-300 leading-relaxed">Revolutionary giveaway system where winners are determined through Hunger Games simulations instead of random draws.</p>
+                </div>
+                
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-primary to-yellow-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-hand-holding-dollar text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Sponsorship System</h3>
+                    <p class="text-gray-300 leading-relaxed">Use your coins to sponsor players in simulations, giving them better odds and equipment for increased survival chances.</p>
+                </div>
+                
+                <div class="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-primary to-orange-primary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-chart-line text-dark-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">Player Statistics</h3>
+                    <p class="text-gray-300 leading-relaxed">Track your progress with detailed stats including wins, losses, coins earned, and survival rates across all game modes.</p>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturesSection -->
+
+    <!-- Commands Showcase -->
+    <!-- @COMPONENT: CommandsSection [interactive command demonstrations] -->
+    <section id="commands" class="py-20 bg-dark-tertiary relative overflow-hidden">
+        <!-- Animated Background Pattern -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 40px, #FF6B35 40px, #FF6B35 42px);"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-orange-primary to-yellow-primary bg-clip-text text-transparent">
+                        Bot Commands
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Master these essential commands to dominate the arena
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Command Demo Cards -->
+                <div class="space-y-8">
+                    <!-- /help Command -->
+                    <div class="group bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-primary/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-primary to-yellow-primary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-question text-dark-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">/help</h3>
+                                <p class="text-gray-400">Get started with all commands</p>
+                            </div>
+                        </div>
+                        <div class="bg-dark-primary rounded-lg p-4 font-mono text-sm">
+                            <div class="text-orange-primary mb-2">> /help</div>
+                            <div class="text-gray-300">
+                                📋 **Panem Bot Commands**<br>
+                                🎮 `/game` - Start Hunger Games<br>
+                                🏆 `/leaderboard` - View rankings<br>
+                                💰 `/balance` - Check your stats<br>
+                                🎁 `/giveaway` - Create giveaways
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- /game Command -->
+                    <div class="group bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-primary/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-primary to-orange-secondary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-sword text-dark-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">/game</h3>
+                                <p class="text-gray-400">Create a Hunger Games lobby</p>
+                            </div>
+                        </div>
+                        <div class="bg-dark-primary rounded-lg p-4 font-mono text-sm">
+                            <div class="text-orange-primary mb-2">> /game start-lobby 100</div>
+                            <div class="text-gray-300">
+                                🎮 **Hunger Games Lobby Created!**<br>
+                                💰 Entry Fee: 100 coins<br>
+                                👥 Players: 0/24<br>
+                                ⏰ Starting in 5 minutes<br>
+                                <span class="text-yellow-primary">React with ⚔️ to join!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-8">
+                    <!-- /leaderboard Command -->
+                    <div class="group bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-primary/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-secondary to-yellow-secondary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-ranking-star text-dark-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">/leaderboard</h3>
+                                <p class="text-gray-400">View server or global rankings</p>
+                            </div>
+                        </div>
+                        <div class="bg-dark-primary rounded-lg p-4 font-mono text-sm">
+                            <div class="text-orange-primary mb-2">> /leaderboard global</div>
+                            <div class="text-gray-300">
+                                🏆 **Global Leaderboard**<br>
+                                🥇 <span class="text-yellow-primary">Champion</span> - 2,847 coins<br>
+                                🥈 <span class="text-gray-400">Survivor</span> - 1,923 coins<br>
+                                🥉 <span class="text-orange-400">Victor</span> - 1,456 coins<br>
+                                <span class="text-gray-500">...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- /balance Command -->
+                    <div class="group bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-primary/20">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-secondary to-orange-primary rounded-xl flex items-center justify-center mr-4">
+                                <i class="fas fa-wallet text-dark-primary text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">/balance</h3>
+                                <p class="text-gray-400">Check your coins and stats</p>
+                            </div>
+                        </div>
+                        <div class="bg-dark-primary rounded-lg p-4 font-mono text-sm">
+                            <div class="text-orange-primary mb-2">> /balance</div>
+                            <div class="text-gray-300">
+                                💰 **Your Stats**<br>
+                                🪙 Coins: <span class="text-yellow-primary">1,250</span><br>
+                                🏆 Wins: <span class="text-green-400">23</span><br>
+                                💀 Games Played: <span class="text-gray-400">67</span><br>
+                                📊 Win Rate: <span class="text-orange-primary">34.3%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CommandsSection -->
+
+    <!-- Giveaways Section -->
+    <!-- @COMPONENT: GiveawaysSection [unique giveaway system showcase] -->
+    <section id="giveaways" class="py-20 bg-dark-secondary relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-orange-primary to-yellow-primary bg-clip-text text-transparent">
+                        Hunger Games Giveaways
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Forget random draws! Winners are determined through epic battle simulations where skill and sponsorships matter
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Giveaway Process -->
+                <div class="space-y-8">
+                    <div class="bg-dark-primary border border-orange-primary/20 rounded-2xl p-8">
+                        <h3 class="text-3xl font-bold mb-6 text-white">How It Works</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-gradient-to-br from-orange-primary to-yellow-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span class="text-dark-primary font-bold">1</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Create Giveaway</h4>
+                                    <p class="text-gray-300">Set up your prize and let participants enter the Hunger Games simulation</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-gradient-to-br from-yellow-primary to-orange-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span class="text-dark-primary font-bold">2</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Players Join & Sponsor</h4>
+                                    <p class="text-gray-300">Participants can use coins to sponsor their character for better odds</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-gradient-to-br from-orange-secondary to-yellow-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span class="text-dark-primary font-bold">3</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Epic Battle Simulation</h4>
+                                    <p class="text-gray-300">Watch as participants fight in a thrilling Hunger Games simulation</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-gradient-to-br from-yellow-secondary to-orange-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span class="text-dark-primary font-bold">4</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-white mb-2">Winner Takes Prize</h4>
+                                    <p class="text-gray-300">The last survivor claims the giveaway prize through skill, not luck!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mock Giveaway Example -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-orange-primary/10 to-yellow-primary/10 border border-orange-primary/30 rounded-2xl p-6 backdrop-blur-md">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-white">🎁 Discord Nitro Giveaway</h3>
+                            <span class="bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary px-3 py-1 rounded-full text-sm font-semibold">ACTIVE</span>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-gray-300 mb-4">Prize: 3 Month Discord Nitro Subscription</p>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-400">Participants: 24/24</span>
+                                <span class="text-orange-primary">Starting soon...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <h4 class="text-lg font-semibold text-white">Current Participants:</h4>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div class="bg-dark-primary/50 rounded-lg p-2 flex items-center justify-between">
+                                    <span class="text-gray-300" data-mock="true">Player1</span>
+                                    <span class="text-yellow-primary">⭐ 50 coins</span>
+                                </div>
+                                <div class="bg-dark-primary/50 rounded-lg p-2 flex items-center justify-between">
+                                    <span class="text-gray-300" data-mock="true">Player2</span>
+                                    <span class="text-yellow-primary">⭐ 25 coins</span>
+                                </div>
+                                <div class="bg-dark-primary/50 rounded-lg p-2 flex items-center justify-between">
+                                    <span class="text-gray-300" data-mock="true">Player3</span>
+                                    <span class="text-gray-400">No sponsor</span>
+                                </div>
+                                <div class="bg-dark-primary/50 rounded-lg p-2 flex items-center justify-between">
+                                    <span class="text-gray-300">+20 more...</span>
+                                    <span class="text-gray-400">Various</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button data-event="click:joinGiveaway" class="w-full mt-6 bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary py-3 rounded-full font-semibold hover:scale-105 transform transition-all duration-300">
+                            <i class="fas fa-sword mr-2"></i>Enter the Arena
+                        </button>
+                    </div>
+                    
+                    <!-- Floating Coin Animation -->
+                    <div class="relative">
+                        <div class="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-yellow-primary to-orange-primary rounded-full animate-bounce-slow opacity-80"></div>
+                        <div class="absolute -bottom-6 -left-6 w-8 h-8 bg-gradient-to-br from-orange-primary to-yellow-primary rounded-full animate-float opacity-60"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: GiveawaysSection -->
+
+    <!-- Final CTA Section -->
+    <!-- @COMPONENT: CTASection [final call-to-action with bot invitation] -->
+    <section class="py-20 bg-dark-tertiary relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 left-10 w-64 h-64 bg-gradient-to-r from-orange-primary to-yellow-primary rounded-full opacity-5 animate-rotate-slow"></div>
+            <div class="absolute bottom-1/4 right-10 w-48 h-48 bg-gradient-to-r from-yellow-primary to-orange-secondary rounded-full opacity-10 animate-rotate-slow" style="animation-direction: reverse;"></div>
+        </div>
+        
+        <div class="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-6xl font-black mb-8">
+                <span class="bg-gradient-to-r from-orange-primary via-yellow-primary to-orange-secondary bg-clip-text text-transparent">
+                    Ready to Rule the Arena?
+                </span>
+            </h2>
+            
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed">
+                Join thousands of Discord servers already hosting epic Hunger Games battles. 
+                Add Panem to your server and let the games begin!
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button data-event="click:inviteBot" class="group bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary px-12 py-5 rounded-full font-bold text-xl hover:scale-110 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/50">
+                    <i class="fab fa-discord mr-4 text-2xl"></i>
+                    Add Panem Bot
+                    <i class="fas fa-external-link-alt ml-4 group-hover:translate-x-1 transition-transform duration-300"></i>
+                </button>
+                
+                <div class="flex items-center space-x-4 text-gray-400">
+                    <div class="flex items-center">
+                        <i class="fas fa-users mr-2 text-orange-primary"></i>
+                        <span data-mock="true">50K+ servers</span>
+                    </div>
+                    <div class="w-1 h-1 bg-gray-500 rounded-full"></div>
+                    <div class="flex items-center">
+                        <i class="fas fa-star mr-2 text-yellow-primary"></i>
+                        <span data-mock="true">4.9/5 rating</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Start Guide -->
+            <div class="mt-16 bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-8">
+                <h3 class="text-2xl font-bold mb-6 text-white">Quick Start Guide</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-left">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-br from-orange-primary to-yellow-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-dark-primary font-bold text-sm">1</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Add Bot</h4>
+                            <p class="text-gray-400 text-sm">Click the button above to invite Panem to your server</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-br from-yellow-primary to-orange-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-dark-primary font-bold text-sm">2</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Type /help</h4>
+                            <p class="text-gray-400 text-sm">Learn all available commands and features</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-br from-orange-secondary to-yellow-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <span class="text-dark-primary font-bold text-sm">3</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Start Playing</h4>
+                            <p class="text-gray-400 text-sm">Create your first Hunger Games with /game</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CTASection -->
+
+    <!-- Footer -->
+    <!-- @COMPONENT: Footer [simple footer with links] -->
+    <footer class="bg-dark-primary border-t border-orange-primary/20 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-primary to-yellow-primary flex items-center justify-center">
+                        <i class="fas fa-fire text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-orange-primary to-yellow-primary bg-clip-text text-transparent">Panem</span>
+                </div>
+                
+                <div class="flex items-center space-x-8 text-gray-400">
+                    <a href="#" class="hover:text-orange-primary transition-colors duration-300" data-mock="true">Privacy Policy</a>
+                    <a href="#" class="hover:text-orange-primary transition-colors duration-300" data-mock="true">Terms of Service</a>
+                    <a href="#" class="hover:text-orange-primary transition-colors duration-300" data-mock="true">Support</a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500">© 2024 Panem Discord Bot. May the odds be ever in your favor.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- Floating Action Button -->
+    <!-- @COMPONENT: FloatingActionButton [persistent invite button] -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button data-event="click:inviteBot" class="bg-gradient-to-r from-orange-primary to-yellow-primary text-dark-primary w-16 h-16 rounded-full shadow-2xl hover:scale-110 transform transition-all duration-300 hover:shadow-orange-primary/50 animate-pulse-slow">
+            <i class="fab fa-discord text-2xl"></i>
+        </button>
+    </div>
+    <!-- @END_COMPONENT: FloatingActionButton -->
+
+    <script>
+        // TODO: Implement smooth scrolling, mobile menu toggle, bot invitation functionality, and interactive animations
+        (function() {
+            // Smooth scrolling for navigation links
+            const smoothScroll = (target) => {
+                const element = document.querySelector(target);
+                if (element) {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            };
+
+            // Mobile menu toggle
+            const toggleMobileMenu = () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu.classList.contains('translate-x-full')) {
+                    mobileMenu.classList.remove('translate-x-full');
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                }
+            };
+
+            // Add click event listeners
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('[data-event*="click:inviteBot"]') || e.target.closest('[data-event*="click:inviteBot"]')) {
+                    // TODO: Implement Discord bot invitation flow
+                    console.log('Redirecting to Discord bot invitation...');
+                    // window.open('https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=YOUR_PERMISSIONS&scope=bot%20applications.commands', '_blank');
+                }
+                
+                if (e.target.matches('[data-event*="click:scrollToDemo"]') || e.target.closest('[data-event*="click:scrollToDemo"]')) {
+                    smoothScroll('#features');
+                }
+                
+                if (e.target.matches('[data-event*="click:toggleMobileMenu"]') || e.target.closest('[data-event*="click:toggleMobileMenu"]')) {
+                    toggleMobileMenu();
+                }
+            });
+
+            // Navigation link smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('href');
+                    smoothScroll(target);
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('translate-x-full')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+
+            // Intersection Observer for animation triggers
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for scroll animations
+            document.querySelectorAll('.group, .space-y-8 > div').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Parallax effect for floating elements
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.animate-float');
+                
+                parallaxElements.forEach(element => {
+                    const speed = 0.5;
+                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
