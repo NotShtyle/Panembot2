@@ -1,4 +1,5 @@
 import { Switch, Route, Router } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,8 +22,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        {/* Use Vite BASE_URL so routes work under GitHub Pages subpath and locally */}
-        <Router base={import.meta.env.BASE_URL}>
+        {/* Use hash-based routing for GitHub Pages to avoid subpath and direct-link issues */}
+        <Router hook={useHashLocation}>
           <AppRoutes />
         </Router>
       </TooltipProvider>
