@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export default function CTASection() {
   const handleInviteBot = () => {
     console.log('Redirecting to Discord bot invitation...');
-    window.open('https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=YOUR_PERMISSIONS&scope=bot%20applications.commands', '_blank');
+    window.open('https://discord.com/oauth2/authorize?client_id=1405031678568693760&scope=bot&permissions=544857390145', '_blank');
   };
 
   return (
@@ -27,32 +27,20 @@ export default function CTASection() {
           Add Panem to your server and let the games begin!
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <div className="flex justify-center">
           <Button 
             onClick={handleInviteBot}
-            className="group gradient-bg-orange-yellow text-dark-primary px-12 py-5 rounded-full font-bold text-xl hover:scale-110 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/50"
+            className="group gradient-bg-orange-yellow text-dark-primary px-12 py-5 rounded-full font-bold text-xl hover:scale-110 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/50 custom-cursor-pointer"
             data-testid="button-cta-invite"
           >
             <Bot className="mr-4 h-6 w-6" />
             Add Panem Bot
             <ExternalLink className="ml-4 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
           </Button>
-          
-          <div className="flex items-center space-x-4 text-gray-400">
-            <div className="flex items-center" data-testid="text-server-count">
-              <Users className="mr-2 h-4 w-4 text-orange-primary" />
-              <span>50K+ servers</span>
-            </div>
-            <div className="w-1 h-1 bg-gray-500 rounded-full"></div>
-            <div className="flex items-center" data-testid="text-rating">
-              <Star className="mr-2 h-4 w-4 text-yellow-primary" />
-              <span>4.9/5 rating</span>
-            </div>
-          </div>
         </div>
         
         {/* Quick Start Guide */}
-        <div className="mt-16 bg-dark-secondary/50 backdrop-blur-md border border-orange-primary/20 rounded-2xl p-8">
+        <div className="mt-16 bg-dark-secondary/30 backdrop-blur-md rounded-2xl p-8 hover:bg-dark-secondary/50 transition-all duration-300">
           <h3 className="text-2xl font-bold mb-6 text-white">Quick Start Guide</h3>
           <div className="grid md:grid-cols-3 gap-6 text-left">
             {[
@@ -72,12 +60,12 @@ export default function CTASection() {
                 description: "Create your first Hunger Games with /game"
               }
             ].map((item, index) => (
-              <div key={index} className="flex items-start space-x-3" data-testid={`quick-start-${index}`}>
-                <div className="w-8 h-8 gradient-bg-orange-yellow rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+              <div key={index} className="group flex items-start space-x-3 p-3 rounded-lg hover:bg-dark-primary/30 transition-all duration-300 hover:scale-105 custom-cursor-pointer" data-testid={`quick-start-${index}`}>
+                <div className="w-8 h-8 gradient-bg-orange-yellow rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:rotate-12 transition-transform duration-300">
                   <span className="text-dark-primary font-bold text-sm">{item.step}</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">{item.title}</h4>
+                  <h4 className="font-semibold text-white group-hover:text-orange-primary transition-colors duration-300">{item.title}</h4>
                   <p className="text-gray-400 text-sm">{item.description}</p>
                 </div>
               </div>

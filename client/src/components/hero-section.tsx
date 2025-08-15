@@ -11,7 +11,7 @@ export default function HeroSection() {
 
   const handleInviteBot = () => {
     console.log('Redirecting to Discord bot invitation...');
-    window.open('https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=YOUR_PERMISSIONS&scope=bot%20applications.commands', '_blank');
+    window.open('https://discord.com/oauth2/authorize?client_id=1405031678568693760&scope=bot&permissions=544857390145', '_blank');
   };
 
   return (
@@ -38,42 +38,34 @@ export default function HeroSection() {
             Compete, wager coins, and climb the leaderboards in the ultimate survival experience.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex justify-center items-center mb-12">
             <Button 
               onClick={handleInviteBot}
-              className="group gradient-bg-orange-yellow text-dark-primary px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/40"
+              className="group gradient-bg-orange-yellow text-dark-primary px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-2xl hover:shadow-orange-primary/40 custom-cursor-pointer"
               data-testid="button-hero-invite"
             >
               <Bot className="mr-3 h-5 w-5" />
               Add to Your Server
               <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
-            
-            <Button 
-              variant="outline"
-              onClick={scrollToDemo}
-              className="border-2 border-orange-primary text-orange-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-orange-primary hover:text-dark-primary transition-all duration-300"
-              data-testid="button-see-demo"
-            >
-              <Play className="mr-3 h-4 w-4" />
-              See Demo
-            </Button>
           </div>
         </div>
         
         {/* Floating Command Preview */}
         <div className="animate-fade-in" style={{ animationDelay: '1s' }}>
-          <div className="bg-dark-secondary/80 backdrop-blur-md border border-orange-primary/30 rounded-2xl p-6 max-w-md mx-auto transform hover:scale-105 transition-all duration-300 shadow-2xl">
+          <div className="bg-dark-secondary/80 backdrop-blur-md rounded-2xl p-6 max-w-md mx-auto transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-orange-primary/20 animate-glow custom-cursor-pointer">
             <div className="flex items-center mb-3">
-              <div className="w-8 h-8 rounded-full gradient-bg-orange-yellow flex items-center justify-center mr-3">
+              <div className="w-8 h-8 rounded-full gradient-bg-orange-yellow flex items-center justify-center mr-3 animate-wobble">
                 <Terminal className="text-dark-primary text-sm" />
               </div>
               <span className="text-gray-400 text-sm">Try it out:</span>
             </div>
-            <div className="bg-dark-primary rounded-lg p-4 font-mono">
-              <span className="text-orange-primary">/game</span>
-              <span className="text-gray-300 ml-2">start hunger-games</span>
-              <div className="animate-pulse w-2 h-5 bg-orange-primary inline-block ml-1"></div>
+            <div className="bg-dark-primary rounded-lg p-4 font-mono relative overflow-hidden">
+              <div className="absolute inset-0 animate-shimmer"></div>
+              <div className="relative z-10">
+                <span className="text-orange-primary">/game</span>
+                <span className="text-gray-300 ml-2">100</span>
+              </div>
             </div>
           </div>
         </div>

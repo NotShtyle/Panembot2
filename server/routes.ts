@@ -12,7 +12,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Discord bot invite redirect endpoint
   app.get("/api/invite", (req, res) => {
     // In a real implementation, this would redirect to the actual Discord OAuth URL
-    const botInviteUrl = "https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=YOUR_PERMISSIONS&scope=bot%20applications.commands";
+    const botInviteUrl = "https://discord.com/oauth2/authorize?client_id=1405031678568693760&scope=bot&permissions=544857390145";
     res.redirect(botInviteUrl);
   });
 

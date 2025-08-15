@@ -52,11 +52,11 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className="group bg-dark-primary border border-orange-primary/20 rounded-2xl p-6 hover:border-orange-primary/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20"
+              className="group bg-dark-primary/50 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-orange-primary/20 hover:bg-dark-primary/80 custom-cursor-pointer"
               data-testid={`feature-card-${index}`}
             >
-              <div className="w-16 h-16 gradient-bg-orange-yellow rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300">
-                <feature.icon className="text-dark-primary text-2xl" />
+              <div className="w-16 h-16 gradient-bg-orange-yellow rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300 animate-glow">
+                <feature.icon className="text-dark-primary text-2xl group-hover:scale-110 transition-transform duration-300" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-orange-primary transition-colors duration-300">
                 {feature.title}
